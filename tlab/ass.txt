@@ -1,0 +1,33 @@
+Function calculate_total_cost(assignment, cost_matrix):
+    total_cost = 0
+    for task in range(num_tasks):
+        worker = assignment[task]
+        total_cost += cost_matrix[task][worker]
+    return total_cost
+
+Function solve_assignment(cost_matrix):
+    num_tasks = number of rows in cost_matrix
+    num_workers = number of columns in cost_matrix
+
+    min_cost = infinity
+    optimal_assignment = None
+
+    for each permutation of workers for tasks:
+        total_cost = calculate_total_cost(permutation, cost_matrix)
+        if total_cost < min_cost:
+            min_cost = total_cost
+            optimal_assignment = permutation
+
+    return min_cost, optimal_assignment
+
+# Example cost matrix
+cost_matrix = [
+    [9, 2, 7],
+    [8, 6, 5],
+    [6, 7, 3]
+]
+
+min_cost, optimal_assignment = solve_assignment(cost_matrix)
+
+Print "Optimal Assignment:", optimal_assignment
+Print "Minimum Total Cost:", min_cost

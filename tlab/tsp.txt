@@ -1,0 +1,36 @@
+nearest_neighbor(distance_matrix):
+    num_cities = number of cities in distance_matrix
+    Initialize an empty list called tour to store the tour
+    Mark all cities as unvisited
+
+    current_city = starting city (e.g., city 0)
+    Mark current_city as visited
+
+    Repeat num_cities - 1 times:
+        next_city = None
+        min_distance = infinity
+
+        for each unvisited city:
+            if distance between current_city and city < min_distance:
+                next_city = city
+                min_distance = distance between current_city and city
+
+        Add next_city to tour
+        Mark next_city as visited
+        current_city = next_city
+
+    Add starting city to tour to complete the tour
+    Return tour
+
+total_distance(tour, distance_matrix):
+    total = 0
+    for i from 0 to length of tour - 2:
+        total = total + distance between tour[i] and tour[i+1]
+    return total
+
+# Example usage:
+distance_matrix = [[0, ...], [...], ...]  # Distance matrix representing distances between cities
+shortest_tour = nearest_neighbor(distance_matrix)
+total_dist = total_distance(shortest_tour, distance_matrix)
+print("Shortest tour:", shortest_tour)
+print("Total distance:", total_dist)

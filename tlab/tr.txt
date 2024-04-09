@@ -1,0 +1,39 @@
+function northwest_corner(cost_matrix, supply, demand):
+    m, n = dimensions of cost_matrix
+    initialize allocation matrix with zeros of size (m, n)
+    set i = 0, j = 0
+
+    while i < m and j < n:
+        quantity = min(supply[i], demand[j])
+        allocation[i, j] = quantity
+        reduce supply[i] by quantity
+        reduce demand[j] by quantity
+
+        if supply[i] is 0:
+            increment i by 1
+        else:
+            increment j by 1
+
+    return allocation
+
+function calculate_total_cost(allocation, cost_matrix):
+    total_cost = 0
+    for each cell in allocation:
+        total_cost += value in the cell * corresponding value in cost_matrix
+    return total_cost
+
+# Example problem
+cost_matrix = cost matrix representing transportation costs
+supply = array representing supply for each source
+demand = array representing demand for each destination
+
+# Apply the Northwest Corner Method
+allocation = northwest_corner(cost_matrix, supply, demand)
+
+# Calculate the total cost based on the allocation
+min_cost = calculate_total_cost(allocation, cost_matrix)
+
+# Print the allocation matrix and the minimum cost
+print("Allocation Matrix:")
+print(allocation)
+print("Minimum Total Cost:", min_cost)

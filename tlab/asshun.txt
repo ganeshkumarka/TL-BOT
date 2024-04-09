@@ -1,0 +1,97 @@
+Procedure HungarianAlgorithm(cost_matrix):
+    # Step 1: Subtract the minimum value of each row from all elements of that row
+    for each row in cost_matrix:
+        row_min = min(row)
+        for each element in row:
+            element = element - row_min
+
+    # Step 2: Subtract the minimum value of each column from all elements of that column
+    for each column in cost_matrix:
+        col_min = min(column)
+        for each element in column:
+            element = element - col_min
+
+    # Step 3: Cover all zeros using the minimum number of lines (horizontal and vertical)
+    num_lines = CoverZeros(cost_matrix)
+
+    # Repeat until the number of lines equals the matrix size
+    while num_lines < cost_matrix.size:
+        # Step 4: Find the smallest uncovered element
+        min_uncovered_value = FindMinUncovered(cost_matrix)
+
+        # Step 5: Subtract the min uncovered value from all uncovered elements and add it to elements covered by two lines
+        UpdateCostMatrix(cost_matrix, min_uncovered_value)
+
+        # Step 6: Cover all zeros using the minimum number of lines (horizontal and vertical)
+        num_lines = CoverZeros(cost_matrix)
+
+    # Step 7: Assign tasks to workers based on the marked zeros
+    assignment = AssignTasks(cost_matrix)
+
+    # Calculate the total cost based on the original cost matrix
+    total_cost = sum(cost_matrix * assignment)
+
+    return total_cost, assignment
+
+Function CoverZeros(cost_matrix):
+    num_lines = 0
+    row_covered = array of size number of rows, initialized to False
+    col_covered = array of size number of columns, initialized to False
+
+    while not all(row_covered) or not all(col_covered):
+        # Find rows and columns with zeros that are not already covered
+        row_zeros, col_zeros = FindUncoveredZeros(cost_matrix, row_covered, col_covered)
+
+        # Mark rows and columns with zeros
+        MarkRowsAndColumns(row_covered, col_covered, row_zeros, col_zeros)
+
+        # Increase the number of lines by 1
+        num_lines = num_lines + 1
+
+    return num_lines
+
+Function FindUncoveredZeros(cost_matrix, row_covered, col_covered):
+    row_zeros = []
+    col_zeros = []
+
+    for each row in cost_matrix:
+        for each element in row:
+            if element == 0 and not row_covered[row] and not col_covered[column]:
+                row_zeros.append(row)
+                col_zeros.append(column)
+
+    return row_zeros, col_zeros
+
+Function MarkRowsAndColumns(row_covered, col_covered, row_zeros, col_zeros):
+    for each zero in row_zeros:
+        row_covered[zero] = True
+    for each zero in col_zeros:
+        col_covered[zero] = True
+
+Function FindMinUncovered(cost_matrix):
+    min_uncovered_value = infinity
+
+    for each row in cost_matrix:
+        for each element in row:
+            if element < min_uncovered_value and not covered_by_lines(element):
+                min_uncovered_value = element
+
+    return min_uncovered_value
+
+Function UpdateCostMatrix(cost_matrix, min_uncovered_value):
+    for each row in cost_matrix:
+        for each element in row:
+            if not covered_by_lines(element):
+                element = element - min_uncovered_value
+            elif covered_twice(element):
+                element = element + min_uncovered_value
+
+Function AssignTasks(cost_matrix):
+    assignment = matrix of same size as cost_matrix, initialized to False
+
+    for each row in cost_matrix:
+        for each element in row:
+            if element == 0 and not row_covered[row] and not col_covered[column]:
+                assignment[row][column] = True
+
+    return assignment
